@@ -1,10 +1,15 @@
 /**
  * @file
  */
-(($, Drupal, drupalSettings) => {
+
+// Initialize our object into the window for later use.
+var pac12_vod = pac12_vod || {};
+
+(($, Drupal, drupalSettings, pac12_vod) => {
   // List page settings
   var vod_list_limit = drupalSettings.pac12_vod.vod_list_limit ? drupalSettings.pac12_vod.vod_list_limit : 10;
   var vod_list_sport = drupalSettings.pac12_vod.vod_list_sport ? drupalSettings.pac12_vod.vod_list_sport : '';
+  var vod_infinite = drupalSettings.pac12_vod.vod_infinite ? drupalSettings.pac12_vod.vod_infinite : false;
   // List block settings
   var vod_block_list_limit = drupalSettings.pac12_vod.vod_block_list_limit ? drupalSettings.pac12_vod.vod_block_list_limit : 10;
   var vod_block_list_sport = drupalSettings.pac12_vod.vod_block_list_sport ? drupalSettings.pac12_vod.vod_block_list_sport : '';
@@ -15,7 +20,7 @@
   // Local containers
   var vodData;
   var schools = {};
-  var sports = {};
+  pac12_vod.sports = {};
 
   /**
    * Converts an object of parameters into a URL encoded query string
@@ -79,7 +84,7 @@
    */
   async function getSchools(schoolIds) {
     return getData(schoolURL + encodeURIComponent(schoolIds.join(";"))).then(data => {
-      if (data.schools.length) {
+      if (data.schools && data.schools.length) {
         data.schools.forEach(school => {
           schools[school.id] = school;
         });
@@ -99,7 +104,7 @@
     return getData(sportsURL).then(data => {
       if (data.sports.length) {
         data.sports.forEach(sport => {
-          sports[sport.id] = sport.name;
+          pac12_vod.sports[sport.id] = sport.name;
         });
       }
 
@@ -118,7 +123,7 @@
    * @return {array}
    *  The array of VOD objects
    */
-  async function loadVods(type) {
+  pac12_vod.loadVods = async function(type) {
     var schoolIds = [];
     var vodParams = {
       page: '',
@@ -196,7 +201,7 @@
                 // Loop over the sport IDs and replace with the sport name
                 vod.sports = vod.sports.map(sport => {
                   if (sport.id) {
-                    return sports[sport.id];
+                    return pac12_vod.sports[sport.id];
                   }
                 });
 
@@ -257,7 +262,7 @@
    * @param {object} vods
    *  The array of VOD objects
    */
-  function renderVods(id, vods) {
+  pac12_vod.renderVods = function(id, vods) {
     $.each(vods, (i, item) => {
       // Build the duration array and remove hours if it is '00'
       var duration = parseDuration(item.duration);
@@ -281,6 +286,18 @@
     });
   }
 
+  if (vod_infinite) {
+    $(window).on('scroll', _.throttle(() => {
+      // // End of the document reached?
+      if ($(document).height() - $(this).height() == $(this).scrollTop()) {
+        pac12_vod.loadVods('page').then(vods => {
+          // Now we build the content element and render it
+          pac12_vod.renderVods('#list-container', vods);
+        });
+      }
+    }, 100));
+  }
+
   /**
    * On page ready, start things off.
    */
@@ -288,14 +305,14 @@
     // First, we need to get a list of all sports
     getSports().then(() => {
       // Then we get the VODs
-      loadVods('page').then(vods => {
+      pac12_vod.loadVods('page').then(vods => {
         // Now we build the content element and render it
-        renderVods('#list-container', vods);
+        pac12_vod.renderVods('#list-container', vods);
       });
-      loadVods('block').then(vods => {
+      pac12_vod.loadVods('block').then(vods => {
         // Now we build the content element and render it
-        renderVods('#list-block-container', vods);
+        pac12_vod.renderVods('#list-block-container', vods);
       });
     });
   });
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings, pac12_vod);

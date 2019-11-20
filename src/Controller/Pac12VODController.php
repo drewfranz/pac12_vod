@@ -29,6 +29,7 @@ class Pac12VODController extends ControllerBase {
           'pac12_vod' => [
             'vod_list_limit' => $config->get('pac12_vod.vod_list_limit'),
             'vod_list_sport' => $config->get('pac12_vod.vod_list_sport'),
+            'vod_infinite' => $config->get('pac12_vod.vod_infinite'),
           ],
         ],
       ],
