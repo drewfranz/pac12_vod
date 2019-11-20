@@ -13,10 +13,10 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function pac12_vod_theme() {
   return [
     'pac12_vod' => [
-      'variables' => [
-        'content' => NULL,
-      ],
       'template' => 'list',
+    ],
+    'pac12_vod_block' => [
+      'template' => 'list_block',
     ],
   ];
 }

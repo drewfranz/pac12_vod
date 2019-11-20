@@ -11,6 +11,12 @@ pac12_vod.settings:
         vod_block_list_limit:
           type: integer
           label: 'VODs returned per block:'
+        vod_list_sport:
+          type: integer
+          label: 'Filter VODs returned by sport:'
+        vod_block_list_sport:
+          type: integer
+          label: 'Filter VODs returned by sport:'
         vod_infinite:
           type: boolean
           label: 'Infinate scrolling:'
