@@ -1,4 +1,6 @@
 pac12_vod:
   vod_list_limit: 10
   vod_block_list_limit: 10
+  vod_list_sport: 0
+  vod_block_list_sport: 0
   vod_infinite: false
