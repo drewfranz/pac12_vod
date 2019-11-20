@@ -14,9 +14,11 @@ function pac12_vod_theme() {
   return [
     'pac12_vod' => [
       'template' => 'list',
+      'render element' => 'elements',
     ],
     'pac12_vod_block' => [
       'template' => 'list_block',
+      'render element' => 'elements',
     ],
   ];
 }

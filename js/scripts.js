@@ -21,6 +21,7 @@ var pac12_vod = pac12_vod || {};
   var vodData;
   var schools = {};
   pac12_vod.sports = {};
+  pac12_vod.nextPageURL = '';
 
   /**
    * Converts an object of parameters into a URL encoded query string
@@ -120,10 +121,13 @@ var pac12_vod = pac12_vod || {};
    * @param {string} type
    *  The type of list we are getting, either 'page' or 'block'
    *
+   * @param {bool} nextPage
+   *  Should we load the 'next_page' url for infinate scrolling?
+   *
    * @return {array}
    *  The array of VOD objects
    */
-  pac12_vod.loadVods = async function(type) {
+  pac12_vod.loadVods = async function(type, nextPage = false) {
     var schoolIds = [];
     var vodParams = {
       page: '',
@@ -136,9 +140,20 @@ var pac12_vod = pac12_vod || {};
       vodParams['pagesize'] = vod_block_list_limit;
       vodParams['sports'] = vod_block_list_sport;
     }
+    // The API URL to call
+    var apiURL = '';
+    // Set the correct url or, if no next page url then exit.
+    if (!nextPage) {
+      apiURL = vodURL + buildParams(vodParams);
+    } else {
+      if (pac12_vod.nextPageURL === '') {
+        return;
+      }
+      apiURL = pac12_vod.nextPageURL;
+    }
 
     // Call the API and return a promise
-    return getData(vodURL + buildParams(vodParams))
+    return getData(apiURL)
       .then(data => {
         // If results were returned continue
         if (data.programs.length) {
@@ -154,8 +169,9 @@ var pac12_vod = pac12_vod || {};
             }
           });
 
-          if (data.next_page) {
-            vodURL = data.next_page;
+          // If there is a next page then we need to set the correct url
+          if (type === 'page' && data.next_page) {
+            pac12_vod.nextPageURL = data.next_page;
           }
 
           // Return the VODs objects
@@ -290,7 +306,7 @@ var pac12_vod = pac12_vod || {};
     $(window).on('scroll', _.throttle(() => {
       // // End of the document reached?
       if ($(document).height() - $(this).height() == $(this).scrollTop()) {
-        pac12_vod.loadVods('page').then(vods => {
+        pac12_vod.loadVods('page', true).then(vods => {
           // Now we build the content element and render it
           pac12_vod.renderVods('#list-container', vods);
         });
