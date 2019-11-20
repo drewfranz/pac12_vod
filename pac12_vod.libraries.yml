@@ -7,5 +7,6 @@ pac12_vod:
   dependencies:
     - core/jquery
     - core/jquery.once
+    - core/underscore
     - core/drupal
     - core/drupalSettings
