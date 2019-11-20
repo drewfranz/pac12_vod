@@ -1,0 +1,6 @@
+name: 'Pac-12 Video On Demand'
+type: module
+description: 'Demonstration module for loading Pac-12 Videos on Demand'
+core: 8.x
+package: 'Pac-12'
+configure: pac12_vod.pac12_vod_config

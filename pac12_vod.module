@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Contains pac12_vod.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+ /**
+ * Implements hook_theme().
+ */
+function pac12_vod_theme() {
+  return [
+    'pac12_vod' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'template' => 'list',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function pac12_vod_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.pac12_vod':
+      return t('
+        <h2>Pac-12 Video On Demand List.</h2>
+        <h3>Instructions</h3>
+        <p>This module allows you to add a list of VODs to a page. Additionally, it creates a default listing page at <a href="/vod/list">/vod/list</a>.</p>
+        <p>To configure the list of VODs returned, visit <a href="/admin/config/services/pac12_vod">/admin/config/services/pac12_vod</a> and enter the number of items returned per page, Sport to return, or enable infinite scrolling.</p>
+      ');
+    default:
+  }
+}

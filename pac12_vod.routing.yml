@@ -1,0 +1,16 @@
+pac12_vod.pac12_vod_config:
+  path: '/admin/config/services/pac12_vod'
+  defaults:
+    _form: '\Drupal\pac12_vod\Form\Pac12VodConfig'
+    _title: 'Pac-12 Video On Demand Config'
+  requirements:
+    _permission: 'administer pac12 vod configuration'
+  options:
+    _admin_route: TRUE
+pac12_vod.pac12_vod_controller_list:
+  path: '/vod/list'
+  defaults:
+    _controller: '\Drupal\pac12_vod\Controller\Pac12VODController::list'
+    _title: 'VOD List'
+  requirements:
+    _permission: 'access content'

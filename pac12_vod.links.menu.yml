@@ -1,0 +1,6 @@
+pac12_vod.pac12_vod_config:
+  title: 'Pac-12 Video On Demand'
+  route_name: pac12_vod.pac12_vod_config
+  description: 'Pac-12 Video On Demand Config'
+  parent: system.admin_config_services
+  weight: 99

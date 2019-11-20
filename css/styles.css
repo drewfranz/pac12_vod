@@ -1,0 +1,26 @@
+.vod-item-wrapper {
+  list-style-type: none !important;
+}
+
+.vod-item {
+  margin: 2rem;
+}
+
+.vod-item:after {
+  content: '';
+  clear: both;
+  float: none;
+  display: table;
+}
+
+.vod-image-a {
+  display: inline-block;
+  width: 25%;
+  float: left;
+  margin-right: 1rem;
+}
+
+.vod-item-sports {
+  margin-left: 1rem;
+}
+

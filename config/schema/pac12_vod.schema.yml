@@ -1,0 +1,16 @@
+pac12_vod.settings:
+  type: config_object
+  label: 'Pac-12 VOD settings'
+  mapping:
+    pac12_vod:
+      type: mapping
+      mapping:
+        vod_list_limit:
+          type: integer
+          label: 'VODs returned per page:'
+        vod_block_list_limit:
+          type: integer
+          label: 'VODs returned per block:'
+        vod_infinite:
+          type: boolean
+          label: 'Infinate scrolling:'

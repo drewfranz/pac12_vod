@@ -1,0 +1,4 @@
+administer pac12 vod configuration:
+  title: 'Administer Pac-12 Video On Demand Configuration'
+  description: 'Allow access to the Pac-12 VOD configuration form.'
+  restrict access: true

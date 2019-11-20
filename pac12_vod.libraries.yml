@@ -1,0 +1,11 @@
+pac12_vod:
+  css:
+    theme:
+      css/styles.css: {}
+  js:
+    js/scripts.js: {preprocess: false}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
